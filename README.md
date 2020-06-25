@@ -1,3 +1,3 @@
 # H.Games
 
-# Plugin développé par Namu pour H.Party
+Plugin développé par Namu pour H.Party
