@@ -1,6 +1,7 @@
 package fr.namu.hg.scoreboard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import fr.namu.hg.MainHG;
 import fr.namu.hg.PlayerHG;
 import fr.namu.hg.enumhg.GamesHG;
 import fr.namu.hg.enumhg.StateHG;
+import fr.namu.hg.games.cts.CTSEnum;
 
 public class ScoreBoardHG {
 	final MainHG main;
@@ -162,7 +164,7 @@ public class ScoreBoardHG {
 	  
 	  public void updateScoreBoardPigRun(FastBoard board) {
 		  String[] score = { 
-		            "§fTimer : §e",
+		            "§fTimer : §b",
 		            "",
 		            "§fCheckpoint 1 : ",
 		            "§fCheckpoint 2 : ",
@@ -210,6 +212,52 @@ public class ScoreBoardHG {
 		    board.updateTitle("§l§3H.GAMES");
 	  }
 	  
+	  public void updateScoreBoardCTS(FastBoard board) {
+		    String[] score = { 
+		            "§fTimer : §e",
+		            "",
+		            "§e#1 - §f",
+		            "§6#2 - §f",
+		            "§c#3 - §f",
+		            "",
+		            "",
+		            "§fVotre équipe : §e",
+		            "§fVos moutons : §e",
+		            "",
+		            "§fMode de Jeu : §6CTS" 
+		    };
+		    PlayerHG phg = this.main.playerhg.get(board.getPlayer().getUniqueId());
+		    List<CTSEnum> teamList = Arrays.asList(CTSEnum.values());
+		    for(Integer ind = 0; ind < teamList.size(); ind++) {
+		    	CTSEnum team = teamList.get(ind);
+		    	if (this.main.CTSUtils.teamPlacement(team) == 1) {
+		    		score[2] = score[2] + team.getName();
+		    	} else if (this.main.CTSUtils.teamPlacement(team) == 2) {
+		    		score[3] = score[3] + team.getName();
+		    	} else if (this.main.CTSUtils.teamPlacement(team) == 3) {
+		    		score[4] = score[4] + team.getName();
+		    	}
+		    }
+		    
+		    if(this.getTimer() >= 0 ) {
+		    	score[0] = score[0] + this.main.GeneralUtils.conversion((this.getTimer()));
+		    } else {
+		    	score[0] = "§eFin de la partie !";
+		    }	    
+		    score[7] = score[7] + phg.getTeam().getName();
+		    score[8] = score[8] + phg.getTeam().getShNumber();
+		    
+		    for (int i = 0; i < score.length; i++) {
+		      StringBuilder sb = new StringBuilder();
+		      sb.append(score[i]);
+		      if (sb.length() > 30)
+		        sb.delete(29, sb.length() - 1); 
+		      score[i] = sb.toString();
+		    } 
+		    board.updateLines(score);
+		    board.updateTitle("§l§3H.GAMES");
+		  }
+	  
 	  
 	  public void updateBoard() {
 		    for (FastBoard board : this.main.boards.values()) {	
@@ -224,6 +272,8 @@ public class ScoreBoardHG {
 		    		this.updateScoreBoardPacMan(board);
 		    	} else if (this.main.isGame(GamesHG.PIGRUN)) {
 		    		this.updateScoreBoardPigRun(board);
+		    	} else if (this.main.isGame(GamesHG.CTS)) {
+		    		this.updateScoreBoardCTS(board);
 		    	}
 		      
 		    } 

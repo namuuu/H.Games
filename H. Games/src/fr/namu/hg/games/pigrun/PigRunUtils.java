@@ -17,7 +17,7 @@ import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import fr.namu.hg.MainHG;
 import fr.namu.hg.PlayerHG;
-
+import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 public class PigRunUtils {
@@ -70,6 +70,8 @@ public class PigRunUtils {
 		pig.setHealth(500D);
 		pig.setPassenger(player);
 		PigRunUtils.changeAI(pig);
+		player.sendMessage(ChatColor.BOLD + "§dCours de cochons !");
+		player.sendMessage("Votre but est d'aller, en compagnie de votre fidèle destrier, jusqu'à la ligne d'arrivée ! Essayez d'y parvenir avant les autres pour quelques points bonus !");
 	}
 	
 	public void passedCheckPoint(List<UUID> cp, Player player) {

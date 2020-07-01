@@ -23,6 +23,7 @@ import fr.namu.hg.runnable.LobbyRunnable;
 import fr.namu.hg.runnable.PacmanRunnable;
 import fr.namu.hg.scoreboard.*;
 import fr.namu.hg.utils.*;
+import fr.namu.hg.games.cts.CTSheep;
 import fr.namu.hg.games.cts.CTSheepUtils;
 import fr.namu.hg.games.pacman.*;
 import fr.namu.hg.games.pigrun.*;
@@ -47,6 +48,7 @@ public class MainHG extends JavaPlugin {
 	public final PigRun PigRun = new PigRun(this);
 	public final PigRunUtils PigRunUtils = new PigRunUtils(this);
 	
+	public final CTSheep CTS = new CTSheep(this);
 	public final CTSheepUtils CTSUtils = new CTSheepUtils(this);
 	
 	public final IntergameRunnable Intergame = new IntergameRunnable(this);
@@ -83,6 +85,7 @@ public class MainHG extends JavaPlugin {
 		pm.registerEvents((Listener)new PlayerDamageEvent(this), (Plugin)this);
 		pm.registerEvents((Listener)new PacManListener(this), (Plugin)this);
 		pm.registerEvents((Listener)new PigRunListener(this), (Plugin)this);
+		pm.registerEvents((Listener)new CTSListener(this), (Plugin)this);
 	}  // pm.registerEvents((Listener)new PlayerListener(this), (Plugin)this);
 	
 	private void gameruleEnabler() {
@@ -100,6 +103,7 @@ public class MainHG extends JavaPlugin {
 	
 	private void commandEnabler() {
 		getCommand("hg").setExecutor((CommandExecutor)new HostCMD(this));
+		getCommand("hgames").setExecutor((CommandExecutor)new HostCMD(this));
 	}
 	
 	public void setState(StateHG state) {

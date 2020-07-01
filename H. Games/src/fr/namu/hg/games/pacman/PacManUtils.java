@@ -105,6 +105,10 @@ public class PacManUtils {
 		player.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		player.getInventory().setHelmet(this.main.ItemUtils.metaLeather(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		Title.sendTitle(player, 20, 60, 20, "§bVous êtes §ePac-Man !", "§7Ramassez une §cCerise §7pour éliminer les Fantômes !");
+		player.sendMessage("§6§lVous êtes Pac-Man !");
+		player.sendMessage("§eEn tant que Pac-Man, vous vous devez de chercher des §ccerises §epour vous rendre plus puissant ! "
+				+ "§eCette puissance vous donnera le pouvoir, pendant un temps limité, d'éliminer des §9fantômes §e!"
+				+ "§eAttention, les §9fantômes §epeuvent vous attaquer si vous ne possédez pas les pouvoirs de la §ccerise §e!");
 	}
 	
 	public void revealGhost(Player player) {
@@ -114,6 +118,9 @@ public class PacManUtils {
 		player.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
 		player.getInventory().setHelmet(this.main.ItemUtils.metaLeather(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
 		Title.sendTitle(player, 20, 60, 20, "§bVous êtes §dun Fantôme !", "§7Éliminer Pac-Man avant qu'il ne ramasse une §ccerise §7!");
+		player.sendMessage("§9§lVous êtes un Fantôme !");
+		player.sendMessage("§eEn tant que fantôme, vous vous devez d'attaquer §6Pac-Man §ejusqu'à ce qu'il meure ! Son élimination vous rapportera des points. "
+				+ "En revanche, si ce dernier obtient une §ccerise§e, ce sera à votre tour de courir, si vous tenez à votre vie !");
 	}
 	
 	@SuppressWarnings("deprecation")

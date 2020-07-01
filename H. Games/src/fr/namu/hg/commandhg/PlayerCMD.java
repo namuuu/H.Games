@@ -8,16 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import fr.namu.hg.MainHG;
 
-public class HostCMD implements TabExecutor {
+public class PlayerCMD implements TabExecutor {
 
-	private MainHG main;
 	
-	public HostCMD(MainHG main) {
-		this.main = main;
-	}
-
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		  Player player = (Player)sender;
 		    if (args.length == 0)
@@ -27,10 +21,8 @@ public class HostCMD implements TabExecutor {
 		    	return true;
 		    }	    	
 		    switch (args[0]) {
-		    case "start":
-		    	this.main.StartUtils.startGame();
+		   
 		    default:
-		    	player.sendMessage("§cErreur, cette commande ne fait pas parti de celles prévues par ce plugin.");
 		    return true;
 		    }
 	}

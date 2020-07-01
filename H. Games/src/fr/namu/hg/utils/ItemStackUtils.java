@@ -17,7 +17,6 @@ import fr.namu.hg.MainHG;
 public class ItemStackUtils {
 
 	  public ItemStackUtils(MainHG main) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public ItemStack metaLeather(Material m, String ItemName, int Amount, Color color, String[] lore) {
@@ -90,6 +89,5 @@ public class ItemStackUtils {
 		  ItemStack voidItem = new ItemStack(Material.AIR, 1);
 		  return voidItem;
 	  }
-	  
 	  
 }

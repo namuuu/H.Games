@@ -60,7 +60,7 @@ public class StartUtils {
 					this.main.PigRun.initGame();			
 				}
 				if(this.checkGame(game, GamesHG.CTS) && players.size() <= 8) {
-					
+					this.main.CTS.initGame();
 				}
 			}
 		}
