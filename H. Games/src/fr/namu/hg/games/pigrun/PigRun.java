@@ -25,10 +25,11 @@ public class PigRun {
 	
 	public void initGame() {
 		this.main.score.setTimer(-800);
+		Location StartLine = this.StartLine;
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		for (Integer ind = 0; ind < players.size(); ind++) {
 			Player player = Bukkit.getPlayer(players.get(ind));
-			player.teleport(this.main.PigRun.StartLine);
+			player.teleport(StartLine);
 			this.main.ScoreUtils.resetStoredValue(player);
 		}
 		this.main.PigRunUtils.setupBarrier();

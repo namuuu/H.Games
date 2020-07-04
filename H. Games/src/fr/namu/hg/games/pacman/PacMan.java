@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import fr.namu.hg.MainHG;
 import fr.namu.hg.runnable.PacmanRunnable;
 
@@ -29,13 +31,17 @@ public class PacMan {
 	public void initGame() {
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		PacManUUID = this.main.PacManUtils.pickPacMan();
+		
 		for (Integer ind = 0; ind < players.size(); ind++) {
 			Player player = Bukkit.getPlayer(players.get(ind));
+			player.setGameMode(GameMode.ADVENTURE);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, Boolean.valueOf(false)));
 			this.main.PacManUtils.randomTeleport(player);
 			if(PacManUUID != player.getUniqueId()) {
 				ghosts.add(player.getUniqueId());
 			}
 		}
+		
 		this.main.PacManUtils.isPacState(PacEnum.START);
 		this.main.score.setTimer(0);
 		PacmanRunnable startLobby = new PacmanRunnable(this.main);

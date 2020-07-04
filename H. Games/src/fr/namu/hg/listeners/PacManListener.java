@@ -37,6 +37,11 @@ public class PacManListener implements Listener {
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent event) {
 		Entity entity = event.getEntity();
+		
+		if(this.main.PacManUtils.isPacState(PacEnum.START) || this.main.PacManUtils.isPacState(PacEnum.END)) {
+			event.setCancelled(true);
+		}
+		
 		if(event.getCause() == DamageCause.ENTITY_ATTACK)
 			return;
 		
@@ -65,7 +70,7 @@ public class PacManListener implements Listener {
 		
 		Player hit = (Player)entityHit;
 		Player damager = (Player)entityDamager;
-		if(this.main.PacManUtils.isPacState(PacEnum.START) || this.main.PacManUtils.isPacState(PacEnum.END)) {
+		if(this.main.score.getTimer() >= 10) {
 			event.setCancelled(true);
 		}
 		if(this.main.PacManUtils.isPacState(PacEnum.CHERRYLESS)) {
@@ -81,7 +86,7 @@ public class PacManListener implements Listener {
 			}
 		}
 		if(this.main.PacManUtils.isPacState(PacEnum.CHERRYFULL)) {
-			if(this.main.pacman.isGhost(hit)) {
+			if(this.main.pacman.isGhost(hit) && !this.main.pacman.isGhost(damager)) {
 				this.main.PacManUtils.ghostDeath(hit);
 				event.setCancelled(true);
 			} else {

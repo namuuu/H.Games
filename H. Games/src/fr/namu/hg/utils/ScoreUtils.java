@@ -6,10 +6,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import fr.namu.hg.MainHG;
 import fr.namu.hg.PlayerHG;
+import fr.namu.hg.scoreboard.Title;
 
 public class ScoreUtils {
 	
@@ -19,6 +21,14 @@ public class ScoreUtils {
 
 	public ScoreUtils(MainHG main) {
 		this.main = main;
+	}
+	
+	public void sendActionBarAll(String message) {
+		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
+		for (Integer ind = 0; ind < players.size(); ind++) {
+			Player player = Bukkit.getPlayer(players.get(ind));
+			Title.sendActionBar(player, message);
+		}
 	}
 
 	public int getPlace(Player player) {

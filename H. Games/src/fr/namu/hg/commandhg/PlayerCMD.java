@@ -13,13 +13,10 @@ public class PlayerCMD implements TabExecutor {
 
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		  Player player = (Player)sender;
+		  @SuppressWarnings("unused")
+		Player player = (Player)sender;
 		    if (args.length == 0)
-		      return false; 
-		    if (!player.hasPermission("host.use")) {
-		    	sender.sendMessage("§eVous n'avez pas les permissions nécessaires pour réaliser cette commande !");
-		    	return true;
-		    }	    	
+		      return false;     	
 		    switch (args[0]) {
 		   
 		    default:

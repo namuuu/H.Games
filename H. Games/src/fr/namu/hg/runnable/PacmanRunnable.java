@@ -1,5 +1,8 @@
 package fr.namu.hg.runnable;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.namu.hg.MainHG;
@@ -16,6 +19,10 @@ public class PacmanRunnable extends BukkitRunnable {
 	public void run() {
 		this.main.score.updateBoard();				
 		
+		World world = Bukkit.getWorld("world");
+		if(this.main.score.getTimer() >= 10) {
+			world.playSound(this.main.PacManUtils.getPacMan().getLocation(), Sound.CREEPER_HISS, 5.0F, 1.0F);
+		}
 		
 		if(this.main.score.getTimer() == 10) {
 			this.main.pacman.startGame();
@@ -23,6 +30,7 @@ public class PacmanRunnable extends BukkitRunnable {
 		
 		if(this.main.score.getTimer() == this.main.pacman.FirstCherryTimer) {
 			this.main.PacManUtils.spawnCherry();
+			this.main.pacman.FirstCherryTimer = this.main.score.getTimer() + 15;
 		}
 		
 		if(this.main.score.getTimer() == this.main.PacManUtils.desacCherry) {

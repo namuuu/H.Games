@@ -4,14 +4,18 @@ import java.util.Arrays;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.namu.hg.MainHG;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 
 public class ItemStackUtils {
@@ -85,9 +89,31 @@ public class ItemStackUtils {
 		    return item;
 		  }
 	  
+	  public ItemStack skullMeta(String ItemName, String PlayerName) {
+		  ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+		  SkullMeta skullMeta = (SkullMeta)skull.getItemMeta();
+		  skullMeta.setOwner(PlayerName);
+		  skullMeta.setDisplayName(ItemName);
+		  skull.setItemMeta((ItemMeta)skullMeta);
+		  return skull;
+	  } //skullMeta("", "")
+	  
 	  public ItemStack metaVoid() {
 		  ItemStack voidItem = new ItemStack(Material.AIR, 1);
 		  return voidItem;
 	  }
+	  
+		public static void removeAI(Entity entity) {
+	        net.minecraft.server.v1_8_R3.Entity nmsEnt = ((CraftEntity) entity).getHandle();
+	        NBTTagCompound tag = nmsEnt.getNBTTag();
+
+	        if (tag == null) {
+	            tag = new NBTTagCompound();
+	        }
+
+	        nmsEnt.c(tag);
+	        tag.setInt("NoAI", 1);
+	        nmsEnt.f(tag);
+	    }
 	  
 }

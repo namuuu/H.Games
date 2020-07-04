@@ -143,6 +143,28 @@ public class PigRunUtils {
 		}
 	}
 	
+	public void disconnectionHandle(Player player) {
+		if(this.main.playerhg.containsKey(player.getUniqueId())) {
+			if(player.getVehicle() != null) {
+				player.getVehicle().remove();
+			}
+			if(this.firstCheckPoint.contains(player.getUniqueId()))
+				this.firstCheckPoint.remove(player.getUniqueId());
+			
+			if(this.secondCheckPoint.contains(player.getUniqueId()))
+				this.secondCheckPoint.remove(player.getUniqueId());
+			
+			if(this.thirdCheckPoint.contains(player.getUniqueId()))
+				this.thirdCheckPoint.remove(player.getUniqueId());
+			
+			if(this.finished.contains(player.getUniqueId())) {
+				this.finished.remove(player.getUniqueId());
+				this.finishedPlayers = this.finishedPlayers - 1;
+			}
+			
+		}
+	}
+	
 	public static void changeAI(Entity entity) {
         net.minecraft.server.v1_8_R3.Entity nmsEnt = ((CraftEntity) entity).getHandle();
         NBTTagCompound tag = nmsEnt.getNBTTag();

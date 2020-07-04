@@ -2,7 +2,6 @@ package fr.namu.hg;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Scoreboard;
-
 import fr.namu.hg.games.cts.CTSEnum;
 
 public class PlayerHG {

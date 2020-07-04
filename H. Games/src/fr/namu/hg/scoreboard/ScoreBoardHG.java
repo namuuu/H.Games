@@ -34,18 +34,18 @@ public class ScoreBoardHG {
 		            "§fConfiguration : §b",
 		            "",
 		            "",
+		            "Joueurs manquants : ",
 		            "",
-		            "",
-		            "Joueurs Requis pour lancer la ",
-		            "partie : ",
-		            "",
-		            "" 
+		            "§7www.h-party.net" 
 		    };
 		    
 		    score[1] = score[1] + this.main.GeneralUtils.GetNbPlayer() + "§f/§b" + this.main.LobbyUtils.getMaxPlayers();
 		    score[2] = score[2] + this.main.LobbyUtils.getConfigName();
-		    score[8] = score[8] + "§b" + this.main.LobbyUtils.getRequiredLeft() + "§f joueurs";
-		    
+		    if(this.main.LobbyUtils.getAutoStartTimer() == -1) {
+		    	score[5] = score[5] + "§b" + this.main.LobbyUtils.getRequiredLeft();
+		    } else {
+		    	score[5] = "Lancement dans : §b" + this.main.LobbyUtils.getAutoStartTimer() + "s";
+		    }		    		    
 		    for (int i = 0; i < score.length; i++) {
 		      StringBuilder sb = new StringBuilder();
 		      sb.append(score[i]);
@@ -109,7 +109,9 @@ public class ScoreBoardHG {
 					top3 = player.getName();
 				}										
 			}
-			score[7] = score[7] + this.main.ScoreUtils.getPlace(board.getPlayer())  + " §7(" + playerhg.getStarDust() + "✦)";
+			if(this.main.playerhg.containsKey(board.getPlayer().getUniqueId())) {
+				score[7] = score[7] + this.main.ScoreUtils.getPlace(board.getPlayer())  + " §7(" + playerhg.getStarDust() + "✦)";
+			}			
 		    score[9] = score[9] + this.main.GeneralUtils.GetNbGame() + "§f/§b" + this.main.GeneralUtils.GetNbMaxGame();
 		    
 		    for (int i = 0; i < score.length; i++) {
@@ -147,7 +149,6 @@ public class ScoreBoardHG {
 		    } else if (this.main.pacman.PacManLives == 0) {
 		    	score[2] = score[2] + "§7❤❤❤";
 		    } else {
-		    	score[2] = score[2] + "§e❤" + this.main.pacman.PacManLives;
 		    }
 		    score[3] = score[3] + this.main.pacman.ghosts.size();
 		    
@@ -180,25 +181,32 @@ public class ScoreBoardHG {
 		  UUID PUID = board.getPlayer().getUniqueId();
 		  	
 		    score[0] = score[0] + this.main.GeneralUtils.conversion((this.getTimer()/100));
-		    if (this.main.PigRunUtils.firstCheckPoint.contains(PUID)) {
-		    	score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
-		    	score[3] = score[3] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
-		    } else if (this.main.PigRunUtils.secondCheckPoint.contains(PUID)) {
-		    	score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
-		    	score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
-		    	score[4] = score[4] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
-		    } else if (this.main.PigRunUtils.thirdCheckPoint.contains(PUID)) {
-		    	score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
-		    	score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
-		    	score[4] = score[4] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue3()/100);
-		    	score[5] = score[5] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
-		    } else if (this.main.PigRunUtils.finished.contains(PUID)) {
-		    	score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
-		    	score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
-		    	score[4] = score[4] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue3()/100);
-		    	score[5] = score[5] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue4()/100);
+		    if(this.main.playerhg.containsKey(board.getPlayer().getUniqueId())) {	    
+		    	if (this.main.PigRunUtils.firstCheckPoint.contains(PUID)) {
+		    		score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
+		    		score[3] = score[3] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
+		    	} else if (this.main.PigRunUtils.secondCheckPoint.contains(PUID)) {
+		    		score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
+		    		score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
+		    		score[4] = score[4] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
+		    	} else if (this.main.PigRunUtils.thirdCheckPoint.contains(PUID)) {
+		    		score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
+		    		score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
+		    		score[4] = score[4] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue3()/100);
+		    		score[5] = score[5] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
+		    	} else if (this.main.PigRunUtils.finished.contains(PUID)) {
+		    		score[2] = score[2] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue1()/100);
+		    		score[3] = score[3] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue2()/100);
+		    		score[4] = score[4] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue3()/100);
+		    		score[5] = score[5] + "§b" + this.main.GeneralUtils.conversion(phg.getStoredValue4()/100);
+		    	} else {
+		    		score[2] = score[2] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
+		    	}
 		    } else {
-		    	score[2] = score[2] + "§9" + this.main.GeneralUtils.conversion((this.getTimer()/100));
+		    	score[2] = "";
+		    	score[3] = "";
+		    	score[4] = "";
+		    	score[5] = "";
 		    }
 		    
 		    for (int i = 0; i < score.length; i++) {
@@ -221,7 +229,7 @@ public class ScoreBoardHG {
 		            "§c#3 - §f",
 		            "",
 		            "",
-		            "§fVotre équipe : §e",
+		            "§fVotre Équipe : §e",
 		            "§fVos moutons : §e",
 		            "",
 		            "§fMode de Jeu : §6CTS" 
@@ -244,8 +252,13 @@ public class ScoreBoardHG {
 		    } else {
 		    	score[0] = "§eFin de la partie !";
 		    }	    
-		    score[7] = score[7] + phg.getTeam().getName();
-		    score[8] = score[8] + phg.getTeam().getShNumber();
+		    if(this.main.playerhg.containsKey(board.getPlayer().getUniqueId())) {
+		    	score[7] = score[7] + phg.getTeam().getName();
+			    score[8] = score[8] + phg.getTeam().getShNumber();
+		    } else {
+		    	score[7] = "§7Vous êtes §8Spectateur";
+		    	score[8] = "";
+		    }
 		    
 		    for (int i = 0; i < score.length; i++) {
 		      StringBuilder sb = new StringBuilder();
@@ -257,6 +270,77 @@ public class ScoreBoardHG {
 		    board.updateLines(score);
 		    board.updateTitle("§l§3H.GAMES");
 		  }
+	  
+	  public void updateScoreBoardRabbitRun(FastBoard board) {
+		  String[] score = { 
+		            "§fTimer : §a",
+		            "",
+		            "§a#1 - §2",
+		            "§a#2 - §2",
+		            "§a#3 - §2",
+		            "",
+		            "§fVous : §a",
+		            "",
+		            "§aCliquez sur §2l'émeraude !",
+		            "",
+		            "§fMode de Jeu : §aRabbit Race" 
+		            };
+		  PlayerHG playerhg = this.main.playerhg.get(board.getPlayer().getUniqueId());
+		  	
+		  	top1 = null;
+		    top2 = null;
+		    top3 = null;
+		    
+		    score[0] = score[0] + this.main.GeneralUtils.conversion(this.getTimer());
+		    List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
+			for (Integer ind = 0; ind < players.size(); ind++) {
+				Player player = Bukkit.getPlayer(players.get(ind));
+				PlayerHG phg = this.main.playerhg.get(players.get(ind));
+				if(this.main.RRUtils.getPlace(player) == 1 && top1 == null) {
+					score[2] = score[2] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+					top1 = player.getName();
+				} else {
+					if(this.main.RRUtils.getPlace(player) == 1 && top2 == null) {
+						score[3] = score[3] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+						top2 = player.getName();
+					} else {
+						if(this.main.RRUtils.getPlace(player) == 1 && top3 == null) {
+							score[4] = score[4] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+							top3 = player.getName();
+						}
+					}
+				}
+				if(this.main.RRUtils.getPlace(player) == 2 && top2 == null) {
+					score[3] = score[3] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+					top2 = player.getName();
+				} else {
+					if(this.main.RRUtils.getPlace(player) == 2 && top3 == null) {
+						score[4] = score[4] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+						top3 = player.getName();
+					}
+				}
+				if(this.main.RRUtils.getPlace(player) == 3 && top3 == null) {
+					score[4] = score[4] + player.getName() + " §7(" + phg.getStoredValue1() + " clics)";
+					top3 = player.getName();
+				}										
+			}
+			
+			if(this.main.playerhg.containsKey(board.getPlayer().getUniqueId())) {
+				score[6] = score[6] + playerhg.getStoredValue1() + " clics";
+			} else {
+				score[6] = "§7Vous êtes §8Spectateur";
+			}
+		    
+		    for (int i = 0; i < score.length; i++) {
+		      StringBuilder sb = new StringBuilder();
+		      sb.append(score[i]);
+		      if (sb.length() > 30)
+		        sb.delete(29, sb.length() - 1); 
+		      score[i] = sb.toString();
+		    } 
+		    board.updateLines(score);
+		    board.updateTitle("§l§3H.GAMES");
+	  }
 	  
 	  
 	  public void updateBoard() {
@@ -274,6 +358,8 @@ public class ScoreBoardHG {
 		    		this.updateScoreBoardPigRun(board);
 		    	} else if (this.main.isGame(GamesHG.CTS)) {
 		    		this.updateScoreBoardCTS(board);
+		    	} else if (this.main.isGame(GamesHG.RABBIT_RACE)) {
+		    		this.updateScoreBoardRabbitRun(board);
 		    	}
 		      
 		    } 

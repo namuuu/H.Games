@@ -2,7 +2,9 @@ package fr.namu.hg.listeners;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,9 +12,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.NameTagVisibility;
 
 import fr.namu.hg.MainHG;
 import fr.namu.hg.PlayerHG;
+import fr.namu.hg.enumhg.GamesHG;
 import fr.namu.hg.enumhg.StateHG;
 import fr.namu.hg.scoreboard.FastBoard;
 import fr.namu.hg.scoreboard.Title;
@@ -30,6 +34,7 @@ public class JoinLeaveEvent implements Listener {
 		Player player = event.getPlayer();
 		String playername = player.getName();
 		UUID puid = player.getUniqueId();
+		World world = player.getWorld();
 		
 		this.main.GeneralUtils.addPlayer();
 		
@@ -49,10 +54,16 @@ public class JoinLeaveEvent implements Listener {
 		      player.getInventory().setChestplate(null);
 		      player.getInventory().setLeggings(null);
 		      player.getInventory().setBoots(null);
-		      this.main.LobbyUtils.getPlayerToLobby(player);
+		      player.teleport(player.getWorld().getSpawnLocation());
+		      System.out.println(playername + " a bien été téléporté à " + world.getSpawnLocation().getBlockX() + " " + world.getSpawnLocation().getBlockY() + " " + world.getSpawnLocation().getBlockZ());
 		      player.setGameMode(GameMode.ADVENTURE);
 		      this.main.playerhg.put(puid, new PlayerHG());
 		      player.setScoreboard(((PlayerHG)this.main.playerhg.get(player.getUniqueId())).getScoreBoard());
+		      if(!Bukkit.getScoreboardManager().getMainScoreboard().getTeam("player").hasEntry(player.getName())) {
+		    	  Bukkit.getScoreboardManager().getMainScoreboard().getTeam("player").addEntry(player.getName());
+		      }	      
+		      Bukkit.getScoreboardManager().getMainScoreboard().getTeam("player").setNameTagVisibility(NameTagVisibility.NEVER);
+
 			  for (PotionEffect po : player.getActivePotionEffects())
 			      player.removePotionEffect(po.getType()); 
 			  player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
@@ -74,6 +85,7 @@ public class JoinLeaveEvent implements Listener {
 			  player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
 	    }
 	    
+	    this.main.LobbyUtils.handleAutoStart();
 	    event.setJoinMessage("§a+ §7» §e"+ playername);
 	    //e.setJoinMessage("§a+ §7» §e"+ e.getPlayer().getName());
 	}
@@ -89,9 +101,18 @@ public class JoinLeaveEvent implements Listener {
 		if(this.main.GeneralUtils.GetNbPlayer() != 0) {
 			this.main.GeneralUtils.removePlayer();
 		}	
+		if(this.main.isGame(GamesHG.PACMAN)) {
+			this.main.PacManUtils.disconnectionHandle(player);
+		} else if (this.main.isGame(GamesHG.PIGRUN)) {
+			this.main.PigRunUtils.disconnectionHandle(player);
+		} else if (this.main.isGame(GamesHG.CTS)) {
+			
+		}
+		
 		if(this.main.playerhg.containsKey(puid)) {
 			this.main.playerhg.remove(puid);
 		}
+		
 		
 		event.setQuitMessage("§c- §7» §e"+ playername);
 	}

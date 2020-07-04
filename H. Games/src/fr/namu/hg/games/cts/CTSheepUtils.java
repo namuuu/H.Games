@@ -260,4 +260,34 @@ public class CTSheepUtils {
 			SheepList.remove(0);
 		}
 	}
+	
+	public void disconnectionHandle(Player player) {
+		
+		if(this.main.playerhg.containsKey(player.getUniqueId())) {
+			
+			PlayerHG phg = this.main.playerhg.get(player.getUniqueId());
+			CTSEnum team = phg.getTeam();
+			
+			for(Integer ind = 0; ind < SheepList.size(); ind++) {
+				Sheep sheep = SheepList.get(ind);
+				if(team == CTSEnum.RED && sheep.getColor() == DyeColor.RED) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if(team == CTSEnum.YELLOW && sheep.getColor() == DyeColor.YELLOW) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.GREEN && sheep.getColor() == DyeColor.LIME) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.CYAN && sheep.getColor() == DyeColor.CYAN) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.WHITE && sheep.getColor() == DyeColor.WHITE) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.PURPLE && sheep.getColor() == DyeColor.PURPLE) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.BLUE && sheep.getColor() == DyeColor.BLUE) {
+					sheep.setColor(DyeColor.GRAY);
+				} else if (team == CTSEnum.ORANGE && sheep.getColor() == DyeColor.ORANGE) {
+					sheep.setColor(DyeColor.GRAY);
+				}						
+			}
+		}
+	}
 }

@@ -17,7 +17,11 @@ public class LobbyRunnable extends BukkitRunnable {
 		
 		this.main.score.updateBoard();
 		
-		if (this.main.LobbyUtils.getRequiredLeft() == 0) {
+		if(this.main.LobbyUtils.getAutoStartTimer() != -1) {
+			this.main.LobbyUtils.decreaseAutoStartTimer();
+		}
+		
+		if(this.main.LobbyUtils.getAutoStartTimer() == 0) {
 			this.main.StartUtils.startGame();
 		}
 		

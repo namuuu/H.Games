@@ -43,6 +43,7 @@ public class StartUtils {
 			gameConfigList.add(GamesHG.PACMAN);
 			gameConfigList.add(GamesHG.PIGRUN);
 			gameConfigList.add(GamesHG.CTS);
+			gameConfigList.add(GamesHG.RABBIT_RACE);
 		}
 	}
 	
@@ -62,13 +63,16 @@ public class StartUtils {
 				if(this.checkGame(game, GamesHG.CTS) && players.size() <= 8) {
 					this.main.CTS.initGame();
 				}
+				if(this.checkGame(game, GamesHG.RABBIT_RACE) && players.size() <= 8) {
+					this.main.RR.initGame();
+				}
 			}
 		}
 		
 		if(!(this.main.isGame(GamesHG.NULL))) {
 			this.main.setState(StateHG.GAME);
 		} else {
-			Bukkit.broadcastMessage("§cErreur : Aucun jeu n'a été trouvé !");
+			this.main.ScoreUtils.sendActionBarAll("§cErreur : Aucun jeu n'a été trouvé !");
 		}
 		
 		
@@ -76,7 +80,47 @@ public class StartUtils {
 	}
 	
 	public void endGame() {
+		String top1 = null;
+		String top2 = null;
+		String top3 = null;
+		
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
+		for (Integer ind = 0; ind < players.size(); ind++) {
+			Player player = Bukkit.getPlayer(players.get(ind));
+			if(this.main.ScoreUtils.getPlace(player) == 1 && top1 == null) {
+				player.getLocation().setX(-1.5);
+				player.getLocation().setY(25);
+				player.getLocation().setZ(-13.5);
+			} else {
+				if(this.main.ScoreUtils.getPlace(player) == 1 && top2 == null) {
+					player.getLocation().setX(-4.5);
+					player.getLocation().setY(24);
+					player.getLocation().setZ(-13.5);
+				} else {
+					if(this.main.ScoreUtils.getPlace(player) == 1 && top3 == null) {
+						player.getLocation().setX(1.5);
+						player.getLocation().setY(23);
+						player.getLocation().setZ(-13.5);
+					}
+				}
+			}
+			if(this.main.ScoreUtils.getPlace(player) == 2 && top2 == null) {
+				player.getLocation().setX(-4.5);
+				player.getLocation().setY(24);
+				player.getLocation().setZ(-13.5);
+			} else {
+				if(this.main.ScoreUtils.getPlace(player) == 2 && top3 == null) {
+					player.getLocation().setX(1.5);
+					player.getLocation().setY(23);
+					player.getLocation().setZ(-13.5);
+				}
+			}
+			if(this.main.ScoreUtils.getPlace(player) == 3 && top3 == null) {
+				player.getLocation().setX(1.5);
+				player.getLocation().setY(23);
+				player.getLocation().setZ(-13.5);
+			}										
+		}
 		for (Integer ind = 0; ind < players.size(); ind++) {
 			Player player = Bukkit.getPlayer(players.get(ind));
 			this.main.LobbyUtils.getPlayerToLobby(player);
@@ -89,6 +133,7 @@ public class StartUtils {
 		    player.getInventory().setChestplate(null);
 		    player.getInventory().setLeggings(null);
 		    player.getInventory().setBoots(null);
+		    player.setCustomNameVisible(true);
 		    player.setGameMode(GameMode.ADVENTURE);
 		    for (PotionEffect po : player.getActivePotionEffects())
 			    player.removePotionEffect(po.getType()); 

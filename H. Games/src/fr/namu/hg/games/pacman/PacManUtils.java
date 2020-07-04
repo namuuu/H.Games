@@ -15,6 +15,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 
 import fr.namu.hg.MainHG;
 import fr.namu.hg.scoreboard.Title;
@@ -24,30 +27,25 @@ public class PacManUtils {
 	private MainHG main;
 	
 	private Random random = new Random();
+	private int TPNb;
+	
+	public Scoreboard scoreboard;
 	
 	public int desacCherry = -1;
 	public int endGame = -1;
 	
 	private Location cherry = null;
-	private int minX = 0;
-	private int minZ = 0;
-	private int maxX = 35;
-	private int maxZ = 35;
-	private int y = 33;
-	
-	private Location pmLoc1 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc2 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc3 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc4 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc5 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc6 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc7 = new Location(Bukkit.getWorld("world"), 0, y, 0);
-	private Location pmLoc8 = new Location(Bukkit.getWorld("world"), 0, y, 0);
+	private int minX = 955;
+	private int minZ = 968;
+	private int maxX = 1056;
+	private int maxZ = 1070;
+	private int y = 20;
 	
 	private PacEnum PacState;
 
 	public PacManUtils(MainHG main) {
 		this.main = main;
+		this.TPNb = 0;
 	}
 	
 	public UUID pickPacMan() {
@@ -58,8 +56,16 @@ public class PacManUtils {
 	}
 	
 	public void randomTeleport(Player player) {
-		int randomLoc = random.nextInt(7);
-		switch (randomLoc) {
+		 Location pmLoc1 = new Location(Bukkit.getWorld("world"), 1057, y, 1064);
+		 Location pmLoc2 = new Location(Bukkit.getWorld("world"), 952, y, 971);
+		 Location pmLoc3 = new Location(Bukkit.getWorld("world"), 970, y, 1068);
+		 Location pmLoc4 = new Location(Bukkit.getWorld("world"), 1057, y, 1013);
+		 Location pmLoc5 = new Location(Bukkit.getWorld("world"), 995, y, 1067);
+		 Location pmLoc6 = new Location(Bukkit.getWorld("world"), 1051, y, 1018);
+		 Location pmLoc7 = new Location(Bukkit.getWorld("world"), 968, y, 993);
+		 Location pmLoc8 = new Location(Bukkit.getWorld("world"), 1054, y, 1036);
+		
+		switch (TPNb) {
 		case 0:
 			player.teleport(pmLoc1);
 		case 1:
@@ -76,6 +82,11 @@ public class PacManUtils {
 			player.teleport(pmLoc7);
 		case 7:
 			player.teleport(pmLoc8);
+		}
+		
+		this.TPNb = this.TPNb + 1;
+		if(TPNb == 8) {
+			this.TPNb = 0;
 		}
 	}
 	
@@ -103,7 +114,7 @@ public class PacManUtils {
 		player.getInventory().setBoots(this.main.ItemUtils.metaLeather(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		player.getInventory().setLeggings(this.main.ItemUtils.metaLeather(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		player.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
-		player.getInventory().setHelmet(this.main.ItemUtils.metaLeather(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
+		player.getInventory().setHelmet(this.main.ItemUtils.skullMeta("§eVous êtes Pac-Man !", "MageGivre"));
 		Title.sendTitle(player, 20, 60, 20, "§bVous êtes §ePac-Man !", "§7Ramassez une §cCerise §7pour éliminer les Fantômes !");
 		player.sendMessage("§6§lVous êtes Pac-Man !");
 		player.sendMessage("§eEn tant que Pac-Man, vous vous devez de chercher des §ccerises §epour vous rendre plus puissant ! "
@@ -113,10 +124,10 @@ public class PacManUtils {
 	
 	public void revealGhost(Player player) {
 		player.setMaxHealth(2.0D);
-		player.getInventory().setBoots(this.main.ItemUtils.metaLeather(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
-		player.getInventory().setLeggings(this.main.ItemUtils.metaLeather(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
-		player.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
-		player.getInventory().setHelmet(this.main.ItemUtils.metaLeather(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.FUCHSIA, null));
+		player.getInventory().setBoots(this.main.ItemUtils.metaLeather(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.RED, null));
+		player.getInventory().setLeggings(this.main.ItemUtils.metaLeather(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.RED, null));
+		player.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.RED, null));
+		player.getInventory().setHelmet(this.main.ItemUtils.skullMeta("§eVous êtes Pac-Man !", "PacManEater"));
 		Title.sendTitle(player, 20, 60, 20, "§bVous êtes §dun Fantôme !", "§7Éliminer Pac-Man avant qu'il ne ramasse une §ccerise §7!");
 		player.sendMessage("§9§lVous êtes un Fantôme !");
 		player.sendMessage("§eEn tant que fantôme, vous vous devez d'attaquer §6Pac-Man §ejusqu'à ce qu'il meure ! Son élimination vous rapportera des points. "
@@ -175,11 +186,12 @@ public class PacManUtils {
 	public void cherryActivate() {
 		setPacState(PacEnum.CHERRYFULL);
 		Player pacman = this.getPacMan();
-		this.desacCherry = this.main.score.getTimer() + 30;
+		this.desacCherry = this.main.score.getTimer() + 10;
+		this.main.pacman.FirstCherryTimer = -1;
+		pacman.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0));
 		pacman.getInventory().setBoots(this.main.ItemUtils.metaLeatherFakeEnchanted(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.ORANGE, null));
 		pacman.getInventory().setLeggings(this.main.ItemUtils.metaLeatherFakeEnchanted(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.ORANGE, null));
 		pacman.getInventory().setChestplate(this.main.ItemUtils.metaLeatherFakeEnchanted(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.ORANGE, null));
-		pacman.getInventory().setHelmet(this.main.ItemUtils.metaLeatherFakeEnchanted(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.ORANGE, null));
 		Title.sendTitle(pacman, 20, 60, 20, "§cCerise !", "§7Éliminez les Fantômes !");
 		for (Integer ind = 0; ind < 9; ind++) {
 			pacman.getInventory().setItem(ind, this.main.ItemUtils.metaExtraFakeEnchanted(Material.BLAZE_ROD, "§4Éliminez tout les fantômes !", 1, null));
@@ -193,10 +205,13 @@ public class PacManUtils {
 	public void cherryDeactivate() {
 		setPacState(PacEnum.CHERRYLESS);
 		Player pacman = this.getPacMan();
+		this.main.pacman.FirstCherryTimer = this.main.score.getTimer() + 15;
+		for (PotionEffect po : pacman.getActivePotionEffects())
+		      pacman.removePotionEffect(po.getType()); 
+		pacman.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
 		pacman.getInventory().setBoots(this.main.ItemUtils.metaLeather(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		pacman.getInventory().setLeggings(this.main.ItemUtils.metaLeather(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		pacman.getInventory().setChestplate(this.main.ItemUtils.metaLeather(Material.LEATHER_CHESTPLATE, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
-		pacman.getInventory().setHelmet(this.main.ItemUtils.metaLeather(Material.LEATHER_HELMET, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		Bukkit.broadcastMessage("§7Les effets de la §cCerise §7ont disparu !");
 		this.spawnCherry();
 		Title.sendTitle(pacman, 20, 60, 20, " ", "§7Une nouvelle cerise va apparaître !");
@@ -214,7 +229,7 @@ public class PacManUtils {
 		this.main.ScoreUtils.earnSD(pacman, 30, "Victoire");
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		for (Integer ind = 0; ind < players.size(); ind++) {
-			if(!(this.main.pacman.isPacMan(Bukkit.getPlayer(players.get(0))))) {
+			if(!(this.main.pacman.isPacMan(Bukkit.getPlayer(players.get(ind))))) {
 				Player ghost = Bukkit.getPlayer(players.get(ind));
 				this.main.ScoreUtils.earnSD(ghost, Math.round(this.main.score.getTimer()/3), "Temps survécu");
 			}
@@ -228,12 +243,28 @@ public class PacManUtils {
 		this.endGame = this.main.score.getTimer() + 10;
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		for (Integer ind = 0; ind < players.size(); ind++) {
-			if(!(this.main.pacman.isPacMan(Bukkit.getPlayer(players.get(0))))) {
+			if(!(this.main.pacman.isPacMan(Bukkit.getPlayer(players.get(ind))))) {
 				Player ghost = Bukkit.getPlayer(players.get(ind));
 				this.main.ScoreUtils.earnSD(ghost, 30, "Victoire");
 			}
+			if((this.main.pacman.isPacMan(Bukkit.getPlayer(players.get(ind))))) {
+				Player pac = Bukkit.getPlayer(players.get(ind));
+				this.main.ScoreUtils.earnSD(pac, Math.round(this.main.score.getTimer()/3), "Temps survécu");
+			}
 			
 		}
+	}
+	
+	public void disconnectionHandle(Player player) {
+		
+		if(this.main.playerhg.containsKey(player.getUniqueId())) {
+			if(this.main.pacman.isGhost(player)) {
+				ghostDeath(player);
+			} else {
+				Bukkit.broadcastMessage("§eLe joueur Pac-Man s'est déconnecté ! Par conséquent...");
+				victoryGhost();
+			}
+		}		
 	}
 }
 

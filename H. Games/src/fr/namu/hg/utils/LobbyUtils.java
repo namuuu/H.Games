@@ -3,8 +3,6 @@ package fr.namu.hg.utils;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -15,11 +13,11 @@ public class LobbyUtils {
 	
 	private MainHG main;
 	
-	Location LobbySpawn = null;
-	
-	private final int RequiredPlayersToStart = 8;
+	private final int RequiredPlayersToStart = 4;
 	
 	private int MaxPlayersSlot = 8;
+	
+	private int autoStartTimer = -1;
 	
 	private String CurrentConfigName = "§cConfiguration Inconnue !";
 	
@@ -28,12 +26,8 @@ public class LobbyUtils {
 	}
 	
 	public void getPlayerToLobby(Player player) {
-		World world = Bukkit.getWorld("world");
-		if(LobbySpawn != null) {
-			player.teleport(LobbySpawn);
-		} else {
-			player.teleport(new Location(world, 0, world.getHighestBlockYAt(0, 0) + 2, 0));
-		}
+		World world = player.getWorld();
+		player.teleport(world.getSpawnLocation());
 	}
 	
 	public int getRequiredLeft() {
@@ -42,6 +36,22 @@ public class LobbyUtils {
 	
 	public int getMaxPlayers() {
 		return (this.MaxPlayersSlot);
+	}
+	
+	public int getAutoStartTimer() {
+		return this.autoStartTimer;
+	}
+	
+	public void decreaseAutoStartTimer() {
+		this.autoStartTimer = autoStartTimer - 1;
+	}
+	
+	public void handleAutoStart() {
+		if(getRequiredLeft() == 0 && autoStartTimer == -1) {
+			autoStartTimer = 30;
+		} else if(MaxPlayersSlot == this.main.GeneralUtils.GetNbPlayer() && autoStartTimer <= 5) {
+			autoStartTimer = 5;
+		}
 	}
 	
 	public String getConfigName() {
@@ -54,5 +64,7 @@ public class LobbyUtils {
 		}
 		return CurrentConfigName;
 	}
+	
+	
 
 }

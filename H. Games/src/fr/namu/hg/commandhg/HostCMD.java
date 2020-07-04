@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -29,6 +30,10 @@ public class HostCMD implements TabExecutor {
 		    switch (args[0]) {
 		    case "start":
 		    	this.main.StartUtils.startGame();
+		    	return true;
+		    case "menu":
+		    	player.getInventory().setItem(7, this.main.ItemUtils.metaExtraFakeEnchanted(Material.NETHER_STAR, "§eMenu du Host", 1, null));
+		    	return true;
 		    default:
 		    	player.sendMessage("§cErreur, cette commande ne fait pas parti de celles prévues par ce plugin.");
 		    return true;
@@ -36,7 +41,7 @@ public class HostCMD implements TabExecutor {
 	}
 	
 	public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
-	    String[] tabe = { "start" };
+	    String[] tabe = { "start", "menu"};
 	    List<String> tab = new ArrayList<>(Arrays.asList(tabe));
 	    if (args.length == 0)
 	      return tab; 
