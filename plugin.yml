@@ -1,0 +1,19 @@
+name: HGames
+version: 0.0.1
+author: Namu
+main: fr.namu.hg.MainHG
+commands:
+  hg:
+    description: Permet d'obtenir des informations concernant le plugin HG
+    usage: /hg <command>
+  hgames:
+    description: Permet de configurer la partie de H.Games
+    usage: /hgames <command>
+  host:
+    description: Commandes des administrateurs
+    usage: /host <command>
+  h:
+    description: Commandes des administrateurs
+    usage: /h <command>
+loadafter: [MiniGameClient]
+depend: [MiniGameClient]
