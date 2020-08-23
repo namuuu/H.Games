@@ -35,16 +35,16 @@ public class RabbitRunUtils {
 		World world = Bukkit.getWorld("world");
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		Collections.shuffle(players);
-		 int LineZ = 2986;		
-		 int PlayersY = 26;
-		 int startLineX = 3000;	
-		 int gap = 4; 
+		 int LineZ = -27;//2986;		
+		 int PlayersY = 40;//26;
+		 int startLineX = -20;//3000;	
+		 int gap = -3; 
 		 
 		for (Integer ind = 0; ind < players.size(); ind++) {		
 			Player player = Bukkit.getPlayer(players.get(ind));
 			PlayerHG phg = this.main.playerhg.get(players.get(ind));
 			player.getInventory().clear();
-			player.teleport(new Location(world, startLineX + 0.5D, PlayersY, LineZ + 0.5D, 270F, 90F));
+			player.teleport(new Location(world, startLineX + 0.5D, PlayersY, LineZ + 0.5D, 90F, 90F));
 			phg.setStoredValue1(0);
 								
 			LineZ = LineZ + gap;
@@ -54,19 +54,22 @@ public class RabbitRunUtils {
 	public void setupRabbits() {
 		World world = Bukkit.getWorld("world");
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
-		 int LineZ = 2986;		
-		 int RabbitsY = 18;	
-		 int startLineX = 3000;
+		 int LineZ = -27;//2986;		
+		 int RabbitsY = 32;//18;	
+		 int startLineX = -20;//3000;
+		 int gap = -3; 
 		
 		 for (Integer ind = 0; ind < players.size(); ind++) {	
 			Player player = Bukkit.getPlayer(players.get(ind));
-			Location rabbitLoc = new Location(world, startLineX + 0.5D, RabbitsY, LineZ + 0.5D, 270F, 0F);
+			Location rabbitLoc = new Location(world, startLineX + 0.5D, RabbitsY, LineZ + 0.5D, 0F, 0F);
 			Rabbit rabbit = (Rabbit)world.spawnEntity(rabbitLoc, EntityType.RABBIT);
 			rabbits.add(rabbit);
 			rabbit.setCustomName(player.getName());
 			rabbit.setMaxHealth(100D);
 			rabbit.setHealth(rabbit.getMaxHealth());
 			ItemStackUtils.removeAI(rabbit);
+			
+			LineZ = LineZ + gap;
 		}
 	}
 	
@@ -80,13 +83,13 @@ public class RabbitRunUtils {
 	
 	public void advanceRabbit(Player player) {	
 		PlayerHG phg = this.main.playerhg.get(player.getUniqueId());
-		int finishLineX = 3021;
+		int finishLineX = -34;//3021;
 		
 		for (Integer ind = 0; ind < rabbits.size(); ind++) {
 			Rabbit rabbit = rabbits.get(ind);
 			if(rabbit.getName() == player.getName() && rabbit.isDead() == false) {
 				Location rabbitLoc = rabbit.getLocation();
-				rabbitLoc.setX(rabbitLoc.getX() + 0.5D);
+				rabbitLoc.setX(rabbitLoc.getX() - 0.5D);
 				rabbit.teleport(rabbitLoc);
 				ItemStackUtils.removeAI(rabbit);
 				phg.setStoredValue1(phg.getStoredValue1() + 1);

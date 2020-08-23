@@ -44,6 +44,7 @@ public class StartUtils {
 			gameConfigList.add(GamesHG.PIGRUN);
 			gameConfigList.add(GamesHG.CTS);
 			gameConfigList.add(GamesHG.RABBIT_RACE);
+			gameConfigList.add(GamesHG.DUEL);
 		}
 	}
 	
@@ -66,6 +67,9 @@ public class StartUtils {
 				if(this.checkGame(game, GamesHG.RABBIT_RACE) && players.size() <= 8) {
 					this.main.RR.initGame();
 				}
+				if(this.checkGame(game, GamesHG.DUEL)) {
+					this.main.Duel.initGame();
+				}
 			}
 		}
 		
@@ -80,12 +84,12 @@ public class StartUtils {
 	}
 	
 	public void endGame() {
-		String top1 = null;
+		/*String top1 = null;
 		String top2 = null;
-		String top3 = null;
+		String top3 = null;*/
 		
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
-		for (Integer ind = 0; ind < players.size(); ind++) {
+		/*for (Integer ind = 0; ind < players.size(); ind++) {
 			Player player = Bukkit.getPlayer(players.get(ind));
 			if(this.main.ScoreUtils.getPlace(player) == 1 && top1 == null) {
 				player.getLocation().setX(-1.5);
@@ -120,7 +124,7 @@ public class StartUtils {
 				player.getLocation().setY(23);
 				player.getLocation().setZ(-13.5);
 			}										
-		}
+		}*/
 		for (Integer ind = 0; ind < players.size(); ind++) {
 			Player player = Bukkit.getPlayer(players.get(ind));
 			this.main.LobbyUtils.getPlayerToLobby(player);
@@ -141,9 +145,15 @@ public class StartUtils {
 		}
 		this.main.GeneralUtils.addGame();
 		this.main.setGame(GamesHG.NULL);
-		this.main.setState(StateHG.INTERGAME);
-		IntergameRunnable startInter = new IntergameRunnable(this.main);
-	    startInter.runTaskTimer((Plugin)this.main, 0L, 20L);
+		if(this.main.GeneralUtils.GetNbGame() != this.main.GeneralUtils.GetNbMaxGame()) {
+			this.main.setState(StateHG.INTERGAME);
+			IntergameRunnable startInter = new IntergameRunnable(this.main);
+		    startInter.runTaskTimer((Plugin)this.main, 0L, 20L);
+		} else {
+			this.main.setState(StateHG.FIN);
+			this.main.mjc.setLeaveRestricted(false);
+			Bukkit.broadcastMessage("La Game est finie ! (Esthétique encore à développer)");
+		}	
 	}
 	
 	public Boolean checkGame(GamesHG indGame, GamesHG game) {

@@ -207,7 +207,8 @@ public class PacManUtils {
 		Player pacman = this.getPacMan();
 		this.main.pacman.FirstCherryTimer = this.main.score.getTimer() + 15;
 		for (PotionEffect po : pacman.getActivePotionEffects())
-		      pacman.removePotionEffect(po.getType()); 
+		      pacman.removePotionEffect(po.getType());
+		pacman.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, Boolean.valueOf(false)));
 		pacman.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
 		pacman.getInventory().setBoots(this.main.ItemUtils.metaLeather(Material.LEATHER_BOOTS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));
 		pacman.getInventory().setLeggings(this.main.ItemUtils.metaLeather(Material.LEATHER_LEGGINGS, "§eVous êtes Pac-Man !", 1, Color.YELLOW, null));

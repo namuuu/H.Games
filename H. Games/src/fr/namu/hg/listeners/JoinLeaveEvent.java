@@ -8,8 +8,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.NameTagVisibility;
@@ -20,6 +18,8 @@ import fr.namu.hg.enumhg.GamesHG;
 import fr.namu.hg.enumhg.StateHG;
 import fr.namu.hg.scoreboard.FastBoard;
 import fr.namu.hg.scoreboard.Title;
+import fr.redline.serverclient.event.AuthorisePlayerConnectedEvent;
+import fr.redline.serverclient.event.AuthorisePlayerDisconnectedEvent;
 
 public class JoinLeaveEvent implements Listener {
 
@@ -30,13 +30,11 @@ public class JoinLeaveEvent implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
+	public void onPlayerJoin(AuthorisePlayerConnectedEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName();
 		UUID puid = player.getUniqueId();
-		World world = player.getWorld();
-		
-		this.main.GeneralUtils.addPlayer();
+		World world = player.getWorld();	
 		
 		FastBoard fastboard = new FastBoard(player);
 	    fastboard.updateTitle("§l§3H.GAMES");
@@ -44,7 +42,8 @@ public class JoinLeaveEvent implements Listener {
 	    Title.sendTabTitle(player, "§cH's §6Par§ety", " ", "§eVous jouez actuellement sur §aplay.h-party.fr", "§eNore site: §ahttps://www.h-party.fr/", "§eCe plugin a été créé par §bNamu", "§eDiscord: §ahttps://discord.gg/SHsq8gb");
 	    this.main.score.updateBoard();
 	    
-	    if(this.main.isState(StateHG.LOBBY)) {
+	    if(this.main.isState(StateHG.LOBBY) && !this.main.mjc.isSpectator(player.getUniqueId())) {
+	    	this.main.GeneralUtils.addPlayer();
 	    	  player.setMaxHealth(20.0D);
 		      player.setHealth(20.0D);
 		      player.setExp(0.0F);
@@ -68,7 +67,7 @@ public class JoinLeaveEvent implements Listener {
 			      player.removePotionEffect(po.getType()); 
 			  player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
 	    } 
-	    if(!(this.main.isState(StateHG.LOBBY))) {
+	    if(!(this.main.isState(StateHG.LOBBY)) || this.main.mjc.isSpectator(player.getUniqueId())) {
 	    	  player.setMaxHealth(20.0D);
 		      player.setHealth(20.0D);
 		      player.setExp(0.0F);
@@ -80,6 +79,8 @@ public class JoinLeaveEvent implements Listener {
 		      player.getInventory().setBoots(null);
 		      player.teleport(player.getWorld().getSpawnLocation());
 		      player.setGameMode(GameMode.SPECTATOR);
+		      this.main.mjc.setSpectator(player, Boolean.valueOf(true));
+		      this.main.mjc.setLeaveRestrictedPlayer(player, Boolean.valueOf(false));
 		      for (PotionEffect po : player.getActivePotionEffects())
 			      player.removePotionEffect(po.getType()); 
 			  player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 2147483647, 0, false, false));
@@ -87,13 +88,12 @@ public class JoinLeaveEvent implements Listener {
 	    
 	    this.main.LobbyUtils.handleAutoStart();
 	    event.setJoinMessage("§a+ §7» §e"+ playername);
-	    //e.setJoinMessage("§a+ §7» §e"+ e.getPlayer().getName());
 	}
 	    
 	
 	
 	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
+	public void onPlayerQuit(AuthorisePlayerDisconnectedEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName();
 		UUID puid = player.getUniqueId();

@@ -23,6 +23,7 @@ public class MenuUtils {
 		inv.setItem(11, this.main.ItemUtils.metaExtra(Material.SADDLE, "§dRun, Piggy, Run !", 1, isGameActive(GamesHG.PIGRUN)));
 		inv.setItem(12, this.main.ItemUtils.metaExtra(Material.WOOL, "§fCapture The Sheep !", 1, isGameActive(GamesHG.CTS)));
 		inv.setItem(13, this.main.ItemUtils.metaExtra(Material.RABBIT_FOOT, "§eRabbit Race", 1, isGameActive(GamesHG.RABBIT_RACE)));
+		inv.setItem(14, this.main.ItemUtils.metaExtra(Material.STONE_HOE, "§cWestern Duels", 1, isGameActive(GamesHG.DUEL)) );
 		
 		player.openInventory(inv);
 	}

@@ -234,7 +234,7 @@ public class ScoreBoardHG {
 		            "",
 		            "§fMode de Jeu : §6CTS" 
 		    };
-		    PlayerHG phg = this.main.playerhg.get(board.getPlayer().getUniqueId());
+		    		    
 		    List<CTSEnum> teamList = Arrays.asList(CTSEnum.values());
 		    for(Integer ind = 0; ind < teamList.size(); ind++) {
 		    	CTSEnum team = teamList.get(ind);
@@ -253,6 +253,7 @@ public class ScoreBoardHG {
 		    	score[0] = "§eFin de la partie !";
 		    }	    
 		    if(this.main.playerhg.containsKey(board.getPlayer().getUniqueId())) {
+		    	PlayerHG phg = this.main.playerhg.get(board.getPlayer().getUniqueId());
 		    	score[7] = score[7] + phg.getTeam().getName();
 			    score[8] = score[8] + phg.getTeam().getShNumber();
 		    } else {
@@ -342,6 +343,41 @@ public class ScoreBoardHG {
 		    board.updateTitle("§l§3H.GAMES");
 	  }
 	  
+	  public void updateScoreBoardDuel(FastBoard board) {
+		  String[] score = { 
+		            "",
+		            "§fRounds Gagnés : §c",
+		            "§fRounds Perdus : §c",
+		            "",
+		            "TIREZ !",
+		            "Rounds : §c",
+		            "",
+		            "§7www.h-party.net" 
+		    };
+		    
+		  Player player = board.getPlayer();
+		  PlayerHG phg = this.main.playerhg.get(player.getUniqueId());
+		  
+		  score[1] = score[1] + phg.getStoredValue1();
+		  score[2] = score[2] + phg.getStoredValue2();
+		  if(this.main.Duel.getGunTimer() == 0 || this.main.Duel.getGunTimer() == -1) {
+			  score[4] = "§4TIREZ !";
+		  } else {
+			  score[4] = "§fTimer : §c" + this.main.Duel.getGunTimer(); 			  
+		  }
+		  score[5] = score[5] + this.main.Duel.getRound() + "§f/§c" + this.main.Duel.getMaxRound();
+		    	    		    
+		    for (int i = 0; i < score.length; i++) {
+		      StringBuilder sb = new StringBuilder();
+		      sb.append(score[i]);
+		      if (sb.length() > 30)
+		        sb.delete(29, sb.length() - 1); 
+		      score[i] = sb.toString();
+		    } 
+		    board.updateLines(score);
+		    board.updateTitle("§l§3H.GAMES");
+
+	  }
 	  
 	  public void updateBoard() {
 		    for (FastBoard board : this.main.boards.values()) {	
@@ -360,6 +396,8 @@ public class ScoreBoardHG {
 		    		this.updateScoreBoardCTS(board);
 		    	} else if (this.main.isGame(GamesHG.RABBIT_RACE)) {
 		    		this.updateScoreBoardRabbitRun(board);
+		    	} else if (this.main.isGame(GamesHG.DUEL)) {
+		    		this.updateScoreBoardDuel(board);
 		    	}
 		      
 		    } 

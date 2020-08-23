@@ -70,14 +70,13 @@ public class PacManListener implements Listener {
 		
 		Player hit = (Player)entityHit;
 		Player damager = (Player)entityDamager;
-		if(this.main.score.getTimer() >= 10) {
+		if(this.main.score.getTimer() <= 10) {
 			event.setCancelled(true);
 		}
 		if(this.main.PacManUtils.isPacState(PacEnum.CHERRYLESS)) {
 			if(this.main.pacman.isGhost(hit)) {
 				event.setCancelled(true);
 			} else {
-				event.setDamage(1.0D);
 				if(hit.getHealth() <= event.getFinalDamage()) {
 					this.main.PacManUtils.pacDeath();
 					this.main.ScoreUtils.earnSD(damager, 10, "Vie de Pac-Man enlevée");

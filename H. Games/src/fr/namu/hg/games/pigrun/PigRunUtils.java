@@ -24,30 +24,30 @@ public class PigRunUtils {
 	
 	private MainHG main;
 	
-	private int cp1MinX = -30;
-	private int cp1MaxX = -21;
-	private int cp1MinZ = 24;
-	private int cp1MaxZ = 24;
+	private int cp1MinX = -29;//3859;
+	private int cp1MaxX = -21;//3859;
+	private int cp1MinZ = 30;//3922;
+	private int cp1MaxZ = 30;//3942;
 	
-	private int cp2MinX = -30;
-	private int cp2MaxX = -21;
-	private int cp2MinZ = 17;
-	private int cp2MaxZ = 17;
+	private int cp2MinX = -29;//3952;
+	private int cp2MaxX = -21;//3972;
+	private int cp2MinZ = 24;//3996;
+	private int cp2MaxZ = 24;//3996;
 	
-	private int cp3MinX = -30;
-	private int cp3MaxX = -21;
-	private int cp3MinZ = 6;
-	private int cp3MaxZ = 6;
+	private int cp3MinX = -29;//3878;
+	private int cp3MaxX = -21;//3898;
+	private int cp3MinZ = 16;//3907;
+	private int cp3MaxZ = 16;//3907;
 	
-	private int cpEndMinX = -30;
-	private int cpEndMaxX = -21;
-	private int cpEndMinZ = -3;
-	private int cpEndMaxZ = -3;
+	private int cpEndMinX = -29;//3801;
+	private int cpEndMaxX = -21;//3802;
+	private int cpEndMinZ = 7;//4051;
+	private int cpEndMaxZ = 7;//4068;
 	
-	private int barMinX = -31;
-	private int barMaxX = -21;
+	private int barMinX = -34;//3780;
+	private int barMaxX = -19;//3799;
 	private int barY = 33;
-	private int barZ = 33;
+	private int barZ = 29;//4043;
 	
 	private int finishedPlayers = 0;
 	public int quitTime = -1;
@@ -117,6 +117,7 @@ public class PigRunUtils {
 		for (int i = this.barMinX; i <=this.barMaxX; i++) {
 			World world = Bukkit.getWorld("world");
 			world.getBlockAt(i, barY, barZ).setType(Material.GLASS);
+			world.getBlockAt(i, barY - 1, barZ).setType(Material.GLASS);
 		}
 	}
 	
@@ -124,6 +125,7 @@ public class PigRunUtils {
 		for (int i = this.barMinX; i <=this.barMaxX; i++) {
 			World world = Bukkit.getWorld("world");
 			world.getBlockAt(i, barY, barZ).setType(Material.AIR);
+			world.getBlockAt(i, barY - 1, barZ).setType(Material.AIR);
 		}
 	}
 	
@@ -131,7 +133,7 @@ public class PigRunUtils {
 		List<UUID> players = new ArrayList<>(this.main.playerhg.keySet());
 		this.main.ScoreUtils.earnSD(player, (players.size() - finishedPlayers)/players.size(), "Ligne d'arrivée parcourue + Classement");
 		this.finishedPlayers++;
-		Bukkit.broadcastMessage("§e" + player.getName() + "a fini le parcours en position §b" + (this.finishedPlayers) + "§e, avec un temps de §b" + this.main.GeneralUtils.conversion(this.main.score.getTimer()/100));
+		Bukkit.broadcastMessage("§e" + player.getName() + " a fini le parcours en position §b" + (this.finishedPlayers) + "§e, avec un temps de §b" + this.main.GeneralUtils.conversion(this.main.score.getTimer()/100));
 		player.getVehicle().remove();
 		player.setGameMode(GameMode.SPECTATOR);
 		this.main.GeneralUtils.PlayersSound(Sound.PIG_IDLE);

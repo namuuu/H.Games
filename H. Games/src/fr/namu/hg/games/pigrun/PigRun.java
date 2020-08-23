@@ -16,7 +16,7 @@ public class PigRun {
 	
 	private MainHG main;
 
-	public Location StartLine = new Location(Bukkit.getWorld("world"), -26, 37, 35);
+	public Location StartLine = new Location(Bukkit.getWorld("world"), -25, 32, 32); //new Location(Bukkit.getWorld("world"), 3790, 18, 4046);
 	
 
 	public PigRun(MainHG main) {

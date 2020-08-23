@@ -29,7 +29,9 @@ public class HostCMD implements TabExecutor {
 		    }	    	
 		    switch (args[0]) {
 		    case "start":
-		    	this.main.StartUtils.startGame();
+		    	this.main.mjc.startGame();
+		    	this.main.mjc.setLeaveRestricted(true);
+		    	this.main.StartUtils.startGame();		    	
 		    	return true;
 		    case "menu":
 		    	player.getInventory().setItem(7, this.main.ItemUtils.metaExtraFakeEnchanted(Material.NETHER_STAR, "§eMenu du Host", 1, null));

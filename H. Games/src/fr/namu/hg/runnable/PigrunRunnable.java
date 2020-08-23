@@ -59,6 +59,12 @@ public class PigrunRunnable extends BukkitRunnable {
 		}
 		
 		if(this.main.score.getTimer() == this.main.PigRunUtils.quitTime) {
+			for (Integer ind = 0; ind < players.size(); ind++) {
+				Player player = Bukkit.getPlayer(players.get(ind));
+				if(player.isInsideVehicle()) {
+					player.getVehicle().remove();
+				}
+			}
 			this.main.StartUtils.endGame();
 		}
 		

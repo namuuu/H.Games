@@ -58,6 +58,8 @@ public class HostMenuEvent implements Listener {
 	    		onSwitchActive(GamesHG.CTS);
 	    	} else if (currentName.contains("§eRabbit Race")) {
 	    		onSwitchActive(GamesHG.RABBIT_RACE);
+	    	} else if (currentName.contains("§cWestern Duels")) {
+	    		onSwitchActive(GamesHG.DUEL);
 	    	}
 	    	
 	    	

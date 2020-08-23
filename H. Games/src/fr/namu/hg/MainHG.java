@@ -12,20 +12,25 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import fr.namu.hg.commandhg.HostCMD;
 import fr.namu.hg.enumhg.ConfigurationHG;
 import fr.namu.hg.enumhg.GamesHG;
 import fr.namu.hg.enumhg.StateHG;
 import fr.namu.hg.games.pacman.PacMan;
 import fr.namu.hg.listeners.*;
+import fr.namu.hg.runnable.DuelRunnable;
 import fr.namu.hg.runnable.IntergameRunnable;
 import fr.namu.hg.runnable.LobbyRunnable;
 import fr.namu.hg.runnable.PacmanRunnable;
 import fr.namu.hg.runnable.RabbitRunnable;
 import fr.namu.hg.scoreboard.*;
 import fr.namu.hg.utils.*;
+import fr.redline.serverclient.minijeux.MiniJeux;
 import fr.namu.hg.games.cts.CTSheep;
 import fr.namu.hg.games.cts.CTSheepUtils;
+import fr.namu.hg.games.duel.WDuel;
+import fr.namu.hg.games.duel.WDuelUtils;
 import fr.namu.hg.games.pacman.*;
 import fr.namu.hg.games.pigrun.*;
 import fr.namu.hg.games.rabbitrun.RabbitRun;
@@ -43,6 +48,8 @@ public class MainHG extends JavaPlugin {
 	public final ScoreUtils ScoreUtils = new ScoreUtils(this);
 	public final MenuUtils MenuUtils = new MenuUtils(this);
 	
+	public MiniJeux mjc = null;
+	
 	public final ScoreBoardHG score = new ScoreBoardHG(this);
 	
 	public final PacMan pacman = new PacMan(this);
@@ -59,6 +66,10 @@ public class MainHG extends JavaPlugin {
 	public final RabbitRunUtils RRUtils =  new RabbitRunUtils(this);
 	public final RabbitRunnable RabbitRunnable = new RabbitRunnable(this);
 	
+	public final WDuel Duel = new WDuel(this);
+	public final WDuelUtils DuelUtils = new WDuelUtils(this);
+	public final DuelRunnable DuelRun = new DuelRunnable(this);
+	
 	public final IntergameRunnable Intergame = new IntergameRunnable(this);
 	
 	private StateHG state;
@@ -69,6 +80,7 @@ public class MainHG extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		System.out.println("[HGames] H.Games plugin has been enabled.");
+		/*mjc = StartSC.createMiniJeux("H.Games", "Party", "Default", 8, Boolean.valueOf(true), Boolean.valueOf(false));*/
 		
 		setState(StateHG.LOBBY);
 		setGame(GamesHG.NULL);
@@ -76,7 +88,7 @@ public class MainHG extends JavaPlugin {
 		listenerEnabler();
 		gameruleEnabler();
 		commandEnabler();
-		
+		/*mjc.registerToServer();*/
 		
 		LobbyRunnable startLobby = new LobbyRunnable(this);
 	    startLobby.runTaskTimer((Plugin)this, 0L, 20L);
@@ -87,6 +99,7 @@ public class MainHG extends JavaPlugin {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.kickPlayer("§eReload du serveur ! §fVous pouvez vous reconnecter dans quelques secondes...");
 		}		
+		/*this.mjc.unregisterToServer();*/
 		System.out.println("[HGames] H.Games plugin has been disabled");
 	}
 	
@@ -100,6 +113,7 @@ public class MainHG extends JavaPlugin {
 		pm.registerEvents((Listener)new PigRunListener(this), (Plugin)this);
 		pm.registerEvents((Listener)new CTSListener(this), (Plugin)this);
 		pm.registerEvents((Listener)new RabbitRunListener(this), (Plugin)this);
+		pm.registerEvents((Listener)new DuelListener(this), (Plugin)this);
 	}  // pm.registerEvents((Listener)new PlayerListener(this), (Plugin)this);
 	
 	private void gameruleEnabler() {
@@ -113,7 +127,7 @@ public class MainHG extends JavaPlugin {
 	    world.setGameRuleValue("doMobSpawning", "false");
 	    world.setGameRuleValue("commandBlockOutput", "false");
 	    world.setGameRuleValue("logAdminCommands", "false");
-	    world.setSpawnLocation(0, 23, 0);
+	    world.setSpawnLocation(0, 90, 0);
 	    if(Bukkit.getScoreboardManager().getMainScoreboard().getTeam("player") == null) {
 	    	Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam("player");
 	    }	    

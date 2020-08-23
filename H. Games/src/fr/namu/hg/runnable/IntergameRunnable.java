@@ -36,12 +36,15 @@ public class IntergameRunnable extends BukkitRunnable {
 				player.setLevel(waitingQueue);
 		}
 		
-		if(waitingQueue == 0) {
+		if(waitingQueue == 0 && this.main.isState(StateHG.INTERGAME)) {
 			this.main.StartUtils.startGame();
-		}		
+		} else if (waitingQueue == 0 && this.main.isState(StateHG.FIN)) {
+			this.main.mjc.leaveAllPlayer();
+			Bukkit.shutdown();
+		}
 		if(!this.main.isState(StateHG.INTERGAME)) {
 			cancel();
 		}
-		this.waitingQueue--;
+			this.waitingQueue--;
 	}
 }

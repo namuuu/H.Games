@@ -21,7 +21,7 @@ public class PacmanRunnable extends BukkitRunnable {
 		
 		World world = Bukkit.getWorld("world");
 		if(this.main.score.getTimer() >= 10) {
-			world.playSound(this.main.PacManUtils.getPacMan().getLocation(), Sound.CREEPER_HISS, 5.0F, 1.0F);
+			world.playSound(this.main.PacManUtils.getPacMan().getLocation(), Sound.CREEPER_HISS, 1.0F, 1.0F);
 		}
 		
 		if(this.main.score.getTimer() == 10) {

@@ -24,24 +24,24 @@ public class CTSheepUtils {
 	private int playersSizeAtStart = 0;
 	
 	/////////////////// POSITIONS POUR 4 JOUEURS
-	private Location redLocAt4 = new Location(Bukkit.getWorld("world"), 23, 32, -5);
-	private Location yelLocAt4 = new Location(Bukkit.getWorld("world"), 23, 32, -9);
-	private Location greLocAt4 = new Location(Bukkit.getWorld("world"), 23, 32, -13);
-	private Location cyaLocAt4 = new Location(Bukkit.getWorld("world"), 23, 32, -16);
+	private Location redLocAt4 = new Location(Bukkit.getWorld("world"), 22.5, 32, -5.5); //new Location(Bukkit.getWorld("world"), 1983.0, 99.0, 2000.0);
+	private Location yelLocAt4 = new Location(Bukkit.getWorld("world"), 22.5, 32.0, -9.5); //new Location(Bukkit.getWorld("world"), 1988.0, 99.0, 2013.0);
+	private Location greLocAt4 = new Location(Bukkit.getWorld("world"), 22.5, 32.0, -12.5); //new Location(Bukkit.getWorld("world"), 2001.0, 99.0, 1983.0);
+	private Location cyaLocAt4 = new Location(Bukkit.getWorld("world"), 22.5, 99.0, -15.5); //new Location(Bukkit.getWorld("world"), 2012.0, 99.0, 1989.0);
 	
-	private Location SheepSpawnAt4 = new Location(Bukkit.getWorld("world"), 0, 32, 0);
+	private Location SheepSpawnAt4 = new Location(Bukkit.getWorld("world"), 0, 32, 0); // new Location(Bukkit.getWorld("world"), 2000, 100, 2000);
 	
 	/////////////////// POSITIONS POUR 8 JOUEURS
-	private Location redLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, -5);
-	private Location yelLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, -9);
-	private Location greLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, -13);
-	private Location cyaLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, -16);
-	private Location whiLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, -2);
-	private Location purLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, 2);
-	private Location bluLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, 6);
-	private Location oraLocAt8 = new Location(Bukkit.getWorld("world"), 23, 32, 9);
+	private Location redLocAt8 = new Location(Bukkit.getWorld("world"), 1983.0, 99.0, 2000.0);
+	private Location yelLocAt8 = new Location(Bukkit.getWorld("world"), 1988.0, 99.0, 2013.0);
+	private Location greLocAt8 = new Location(Bukkit.getWorld("world"), 2001.0, 99.0, 1983.0);
+	private Location cyaLocAt8 = new Location(Bukkit.getWorld("world"), 2012.0, 99.0, 1989.0);
+	private Location whiLocAt8 = new Location(Bukkit.getWorld("world"), 2012.0, 99.0, 2012.0);
+	private Location purLocAt8 = new Location(Bukkit.getWorld("world"), 2001.0, 99.0, 2018.0);
+	private Location bluLocAt8 = new Location(Bukkit.getWorld("world"), 2018.0, 99.0, 2001.0);
+	private Location oraLocAt8 = new Location(Bukkit.getWorld("world"), 23.0, 99.0, 9.0);
 	
-	private Location SheepSpawnAt8 = new Location(Bukkit.getWorld("world"), 0, 32, 0);
+	private Location SheepSpawnAt8 = new Location(Bukkit.getWorld("world"), 2000.0, 100.0, 2000.0);
 	
 	private List<Sheep> SheepList = new ArrayList<>();
 	
@@ -57,7 +57,7 @@ public class CTSheepUtils {
 		for (Integer ind = 0; ind < players.size(); ind++) {
 			PlayerHG phg = this.main.playerhg.get(players.get(ind));
 			Player player = Bukkit.getPlayer(players.get(ind));
-			
+			System.out.println(player.getName() + " se voit attribuer une équipe.");
 			if(ind == 0) {
 				phg.setTeam(CTSEnum.RED);
 				tpFromTeam(player);
@@ -90,6 +90,9 @@ public class CTSheepUtils {
 				phg.setTeam(CTSEnum.ORANGE);
 				tpFromTeam(player);
 				setOutfit(player);
+			}
+			if(phg.getTeam() == null) {
+				System.out.println(player.getName() + " n'a aucune équipe !");
 			}
 		}
 	}

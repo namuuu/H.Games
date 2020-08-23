@@ -22,7 +22,9 @@ public class LobbyRunnable extends BukkitRunnable {
 		}
 		
 		if(this.main.LobbyUtils.getAutoStartTimer() == 0) {
-			this.main.StartUtils.startGame();
+			this.main.mjc.startGame();
+			this.main.mjc.setLeaveRestricted(true);
+			this.main.StartUtils.startGame();						
 		}
 		
 		if(!(this.main.isState(StateHG.LOBBY))) {
